@@ -1,18 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs';
+import { Injectable } from "@angular/core";
+import { Http, Response } from "@angular/http";
+import { Observable } from "rxjs/Observable";
+import "rxjs";
+import * as _ from "underscore";
 
-interface Entry {
-    title: string;
-    contect: string;
-}
+import { Entry } from "./entry-interface";
+
 @Injectable()
 export class RetrieveEntriesService {
-   //entries: Array<Entry>
-constructor(private http: Http) { }
+  BASE_URL: string = "http://localhost:3000";
+  entries: Array<Entry> = [];
+
+  constructor(private http: Http) {}
   getEntries() {
-    return this.http.get('http://localhost:3000/api/journal-entries').map((res) => res.json());
-}
- 
+    return this.http
+      .get(`${this.BASE_URL}/api/journal-entries`)
+      .map(res => res.json());
+  }
+  getEntry(idEntry: string) {
+    return this.http
+      .get(`${this.BASE_URL}/api/journal-entries/${idEntry}`)
+      .map(res => res.json());
+  }
 }
